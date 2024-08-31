@@ -78,3 +78,42 @@
 .remove-btn:hover{
     background-color: #4BB543;
 }
+
+.priority-color{
+    height: 48px;
+    width: 80px;
+}
+
+.active{
+    border: 5px solid lightsalmon;
+}
+
+.modal-cont{
+    display: none;
+    height: 50vh;
+    width: 45vw;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+
+.textArea-cont{
+    height: 100%;
+    width: 75%;
+    border: none;
+    resize: none;
+    outline: none;
+    background-color: #dfe4ea;
+    font-size: 32px;
+}
+
+.priority-colors-container{
+    height: 100%;
+    width: 25%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    background-color: #4b4b4b;
+}
