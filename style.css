@@ -117,3 +117,32 @@
     align-items: center;
     background-color: #4b4b4b;
 }
+
+.main-cont{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 32px;
+    justify-content: center;
+}
+
+.ticket-cont{
+    height: 192px;
+    width: 200px;
+    background-color: coral;
+    position: relative;
+}
+
+.ticket-color{
+    height: 16px;
+}
+
+.ticket-id{
+    height: 32px;
+    background-color: yellow;
+}
+
+.ticket-lock{
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+}

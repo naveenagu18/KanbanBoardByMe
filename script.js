@@ -64,7 +64,7 @@ function createTicket(ticketColor, ticketText){
     `;
     mainContainer.appendChild(ticketCont);
     handleColor();
-    handleLock();
+    handleLock(ticketCont, id);
     handleRemove(ticketCont, id);
     ticketsArr.push({ticketColor, ticketText, ticketID : id});//naming 3rd columns as ticketID instead of id
 }
@@ -73,8 +73,25 @@ function handleColor(){
 
 }
 
-function handleLock(){
-
+function handleLock(ticketCont, id){
+    let ticketLock = ticketCont.querySelector('.ticket-lock');
+    let ticketLockIcon = ticketLock.children[0];
+    let ticketTextArea = ticketCont.querySelector('.ticket-area');
+    ticketLockIcon.addEventListener('click', function(){
+        if(ticketLockIcon.classList.contains('fa-lock')){
+            ticketLockIcon.classList.remove('fa-lock');
+            ticketLockIcon.classList.add('fa-lock-open');
+            ticketTextArea.setAttribute('contenteditable', true);
+        }
+        else{
+            ticketLockIcon.classList.remove('fa-lock-open');
+            ticketLockIcon.classList.add('fa-lock');
+            ticketTextArea.setAttribute('contenteditable', false);
+            //add updated text while closing the lock
+            let ticketIndex = getTicketIndex(id);
+            ticketsArr[ticketIndex].ticketText = ticketTextArea.innerText;
+        }
+    });
 }
 
 function handleRemove(ticketCont, id){
@@ -92,3 +109,30 @@ function getTicketIndex(ticketID){
     });
     return filteredTicketIndex;
 }
+
+let toolBoxColors = document.querySelectorAll('.color');
+
+toolBoxColors.forEach(function(item){
+    item.addEventListener('click', function(){
+        let selectedItemColor = item.classList[0];
+        let filteredTickets = ticketsArr.filter(function(item){
+            return selectedItemColor === item.ticketColor;
+        });
+        let allTickets = document.querySelectorAll('.ticket-cont');
+        allTickets.forEach(function(item){
+            if(item.children[0].classList[1] != selectedItemColor){
+                item.style.display = 'none';
+            }
+            else{
+                item.style.display = 'block';
+            }
+        })
+    })
+
+    item.addEventListener('dblclick', function(){
+        let allTickets = document.querySelectorAll('.ticket-cont');
+        allTickets.forEach(function(item){
+            item.style.display = 'block';
+        })
+    })
+});
