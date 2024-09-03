@@ -50,8 +50,8 @@ modalcont.addEventListener('keydown', function(e){
 
 let ticketsArr = [];
 
-function createTicket(ticketColor, ticketText){
-    let id = shortid();
+function createTicket(ticketColor, ticketText, ticketID){
+    let id = ticketID || shortid();
     let ticketCont = document.createElement('div');
     ticketCont.setAttribute('class','ticket-cont');
     ticketCont.innerHTML = `
@@ -63,14 +63,12 @@ function createTicket(ticketColor, ticketText){
     </div>
     `;
     mainContainer.appendChild(ticketCont);
-    handleColor();
     handleLock(ticketCont, id);
     handleRemove(ticketCont, id);
-    ticketsArr.push({ticketColor, ticketText, ticketID : id});//naming 3rd columns as ticketID instead of id
-}
-
-function handleColor(){
-
+    if(!ticketID){
+        ticketsArr.push({ticketColor, ticketText, ticketID : id});//naming 3rd columns as ticketID instead of id
+        localStorage.setItem('tickets', JSON.stringify(ticketsArr));
+    }
 }
 
 function handleLock(ticketCont, id){
@@ -90,6 +88,7 @@ function handleLock(ticketCont, id){
             //add updated text while closing the lock
             let ticketIndex = getTicketIndex(id);
             ticketsArr[ticketIndex].ticketText = ticketTextArea.innerText;
+            localStorage.setItem('tickets', JSON.stringify(ticketsArr));
         }
     });
 }
@@ -100,6 +99,7 @@ function handleRemove(ticketCont, id){
         ticketCont.remove(); //when remove button is active and ticket is clicked remove it from dom
         let idxToBeRemoved = getTicketIndex(id); //get the idx to be removed from the array
         ticketsArr.splice(idxToBeRemoved, 1);
+        localStorage.setItem('tickets', JSON.stringify(ticketsArr));
     });
 }
 
@@ -136,3 +136,10 @@ toolBoxColors.forEach(function(item){
         })
     })
 });
+
+if(localStorage.getItem('tickets')){
+    ticketsArr = JSON.parse(localStorage.getItem('tickets'));
+    ticketsArr.forEach(function(item){
+        createTicket(item.ticketColor, item.ticketText, item.ticketID);
+    })
+}
